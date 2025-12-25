@@ -205,6 +205,56 @@ section h3 {
   letter-spacing: 0.3px;
 }
 
+/* Social Share Buttons */
+.social-share-buttons {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-light);
+  justify-content: center;
+}
+
+.share-button {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  height: 28px;
+}
+
+.share-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.share-button.share-native:hover {
+  background-color: var(--primary-light);
+  border-color: var(--primary);
+}
+
+.share-button.share-twitter:hover {
+  background-color: #1da1f2;
+  border-color: #1da1f2;
+}
+
+.share-button.share-facebook:hover {
+  background-color: #1877f2;
+  border-color: #1877f2;
+}
+
+.share-button.share-email:hover {
+  background-color: var(--success);
+  border-color: var(--success);
+}
+
 /* Capacity Indicator */
 .capacity-container {
   margin: 8px 0;

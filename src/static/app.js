@@ -554,6 +554,20 @@ document.addEventListener("DOMContentLoaded", () => {
             .join("")}
         </ul>
       </div>
+      <div class="social-share-buttons">
+        <button class="share-button share-native" data-activity="${name}" title="Share" aria-label="Share activity">
+          📤
+        </button>
+        <button class="share-button share-twitter" data-activity="${name}" title="Share on Twitter" aria-label="Share on Twitter">
+          🐦
+        </button>
+        <button class="share-button share-facebook" data-activity="${name}" title="Share on Facebook" aria-label="Share on Facebook">
+          📘
+        </button>
+        <button class="share-button share-email" data-activity="${name}" title="Share via Email" aria-label="Share via Email">
+          ✉️
+        </button>
+      </div>
       <div class="activity-card-actions">
         ${
           currentUser
@@ -588,6 +602,14 @@ document.addEventListener("DOMContentLoaded", () => {
         });
       }
     }
+
+    // Add click handlers for share buttons
+    const shareButtons = activityCard.querySelectorAll(".share-button");
+    shareButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        handleShare(button, name, details);
+      });
+    });
 
     activitiesList.appendChild(activityCard);
   }
@@ -752,6 +774,56 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300);
       }
     });
+  }
+
+  // Handle social sharing
+  function handleShare(button, activityName, details) {
+    const shareUrl = window.location.href;
+    const formattedSchedule = formatSchedule(details);
+    const shareText = `Check out ${activityName} at Mergington High School! ${details.description} Schedule: ${formattedSchedule}`;
+    const shareTitle = `${activityName} - Mergington High School`;
+
+    if (button.classList.contains("share-native")) {
+      // Use native Web Share API if available
+      if (navigator.share) {
+        navigator
+          .share({
+            title: shareTitle,
+            text: shareText,
+            url: shareUrl,
+          })
+          .then(() => {
+            showMessage("Activity shared successfully!", "success");
+          })
+          .catch((error) => {
+            if (error.name !== "AbortError") {
+              console.error("Error sharing:", error);
+            }
+          });
+      } else {
+        showMessage(
+          "Native sharing not supported. Please use the social media buttons.",
+          "info"
+        );
+      }
+    } else if (button.classList.contains("share-twitter")) {
+      // Share on Twitter - URL is safely constructed with encoded parameters
+      const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
+        shareText
+      )}&url=${encodeURIComponent(shareUrl)}`;
+      window.open(twitterUrl, "_blank", "width=600,height=400");
+    } else if (button.classList.contains("share-facebook")) {
+      // Share on Facebook - URL is safely constructed with encoded parameters
+      const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+        shareUrl
+      )}&quote=${encodeURIComponent(shareText)}`;
+      window.open(facebookUrl, "_blank", "width=600,height=400");
+    } else if (button.classList.contains("share-email")) {
+      // Share via Email
+      const emailSubject = encodeURIComponent(shareTitle);
+      const emailBody = encodeURIComponent(`${shareText}\n\n${shareUrl}`);
+      window.location.href = `mailto:?subject=${emailSubject}&body=${emailBody}`;
+    }
   }
 
   // Handle unregistration with confirmation
