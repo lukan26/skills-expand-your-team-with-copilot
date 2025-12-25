@@ -555,16 +555,16 @@ document.addEventListener("DOMContentLoaded", () => {
         </ul>
       </div>
       <div class="social-share-buttons">
-        <button class="share-button share-native" data-activity="${name}" title="Share">
+        <button class="share-button share-native" data-activity="${name}" title="Share" aria-label="Share activity">
           📤
         </button>
-        <button class="share-button share-twitter" data-activity="${name}" title="Share on Twitter">
+        <button class="share-button share-twitter" data-activity="${name}" title="Share on Twitter" aria-label="Share on Twitter">
           🐦
         </button>
-        <button class="share-button share-facebook" data-activity="${name}" title="Share on Facebook">
+        <button class="share-button share-facebook" data-activity="${name}" title="Share on Facebook" aria-label="Share on Facebook">
           📘
         </button>
-        <button class="share-button share-email" data-activity="${name}" title="Share via Email">
+        <button class="share-button share-email" data-activity="${name}" title="Share via Email" aria-label="Share via Email">
           ✉️
         </button>
       </div>
@@ -807,13 +807,13 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
     } else if (button.classList.contains("share-twitter")) {
-      // Share on Twitter
+      // Share on Twitter - URL is safely constructed with encoded parameters
       const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(
         shareText
       )}&url=${encodeURIComponent(shareUrl)}`;
       window.open(twitterUrl, "_blank", "width=600,height=400");
     } else if (button.classList.contains("share-facebook")) {
-      // Share on Facebook
+      // Share on Facebook - URL is safely constructed with encoded parameters
       const facebookUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
         shareUrl
       )}&quote=${encodeURIComponent(shareText)}`;
