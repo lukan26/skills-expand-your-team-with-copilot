@@ -8,6 +8,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const activityInput = document.getElementById("activity");
   const closeRegistrationModal = document.querySelector(".close-modal");
 
+  // Dark mode elements
+  const darkModeToggle = document.getElementById("dark-mode-toggle");
+  const modeIcon = darkModeToggle ? darkModeToggle.querySelector(".mode-icon") : null;
+
   // Search and filter elements
   const searchInput = document.getElementById("activity-search");
   const searchButton = document.getElementById("search-button");
@@ -24,6 +28,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginForm = document.getElementById("login-form");
   const closeLoginModal = document.querySelector(".close-login-modal");
   const loginMessage = document.getElementById("login-message");
+
+  // Dark mode functionality
+  function initDarkMode() {
+    if (!modeIcon) return;
+    
+    // Check localStorage for saved preference
+    const darkModeEnabled = localStorage.getItem("darkMode") === "true";
+    if (darkModeEnabled) {
+      document.body.classList.add("dark-mode");
+      modeIcon.textContent = "☀️";
+    } else {
+      modeIcon.textContent = "🌙";
+    }
+  }
+
+  function toggleDarkMode() {
+    if (!modeIcon) return;
+    
+    const isDarkMode = document.body.classList.toggle("dark-mode");
+    localStorage.setItem("darkMode", isDarkMode);
+    
+    // Update icon
+    if (isDarkMode) {
+      modeIcon.textContent = "☀️";
+    } else {
+      modeIcon.textContent = "🌙";
+    }
+  }
+
+  // Add event listener for dark mode toggle
+  if (darkModeToggle) {
+    darkModeToggle.addEventListener("click", toggleDarkMode);
+  }
 
   // Activity categories with corresponding colors
   const activityTypes = {
@@ -864,6 +901,7 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // Initialize app
+  initDarkMode();
   checkAuthentication();
   initializeFilters();
   fetchActivities();
